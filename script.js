@@ -5,46 +5,53 @@ document.addEventListener("DOMContentLoaded", function () {
     "#quoteDisplay .quote-author"
   );
 
-  const quotes = [
-    {
-      text: "Единственный способ сделать великое дело - любить то, что делаешь.",
-      author: "Стив Джобс",
-    },
-    {
-      text: "Жизнь - это то, что происходит с тобой, пока ты строишь другие планы.",
-      author: "Джон Леннон",
-    },
-    {
-      text: "Успех - это не ключ к счастью. Счастье - это ключ к успеху. Если ты любишь то, что делаешь, ты обязательно добьешься успеха.",
-      author: "Альберт Швейцер",
-    },
-    {
-      text: "Будьте самими собой; все остальные роли уже заняты.",
-      author: "Оскар Уайльд",
-    },
-    {
-      text: "Мир меняется на твоих глазах. Если ты не движешься вперед, ты остаешься позади.",
-      author: "Неизвестный автор",
-    },
-    {
-      text: "Наше величайшее слава не в том, чтобы никогда не терпеть неудачу, а в том, чтобы подниматься каждый раз, когда мы падаем.",
-      author: "Нельсон Мандела",
-    },
-    {
-      text: "Воображение важнее знания. Знание ограничено, а воображение охватывает весь мир.",
-      author: "Альберт Эйнштейн",
-    },
-    {
-      text: "Если ты долбоеб,то это на долго",
-      author: "Хуило",
-    },
-  ];
+  // --- Функция для получения и отображения цитаты с Breaking Bad Quotes API ---
+  async function fetchAndDisplayQuote() {
+    // 1. Показываем пользователю, что идет загрузка
+    quoteTextElement.textContent = "Loading quote...";
+    quoteAuthorElement.textContent = "";
 
-  quoteBtn.addEventListener("click", () => {
-    const randomIndex = Math.floor(Math.random() * quotes.length);
-    console.log(randomIndex);
-    const randomQuote = quotes[randomIndex];
-    quoteTextElement.textContent = `"${randomQuote.text}"`;
-    quoteAuthorElement.textContent = `- ${randomQuote.author}`;
-  });
+    try {
+      // 2. Отправляем запрос к API
+      //    URL: https://api.breakingbadquotes.xyz/v1/quotes
+      const response = await fetch(
+        "https://api.breakingbadquotes.xyz/v1/quotes"
+      );
+
+      // 3. Проверяем, успешен ли ответ от сервера
+      if (!response.ok) {
+        throw new Error(
+          `Network error: ${response.status} ${response.statusText}`
+        );
+      }
+
+      // 4. Преобразуем ответ из JSON в JavaScript-объект (это массив)
+      const quoteDataArray = await response.json();
+
+      // 5. Проверяем, что массив не пустой и содержит объект
+      if (!quoteDataArray || quoteDataArray.length === 0) {
+        throw new Error("API returned empty data");
+      }
+
+      // 6. Берем первый (и единственный) объект из массива
+      const quoteData = quoteDataArray[0];
+
+      // 7. Отображаем полученные данные на странице
+      //    API возвращает объект с полями 'quote' (текст) и 'author' (автор)
+      quoteTextElement.textContent = `"${quoteData.quote}"`;
+      quoteAuthorElement.textContent = `- ${quoteData.author}`;
+    } catch (error) {
+      // 8. Обрабатываем ошибки
+      console.error("Failed to load quote:", error);
+      quoteTextElement.textContent = "Failed to load quote. Please try again.";
+      quoteAuthorElement.textContent = `Error: ${error.message}`;
+    }
+  }
+  // --- Конец функции fetchAndDisplayQuote ---
+
+  // 9. Добавляем обработчик клика на кнопку
+  quoteBtn.addEventListener("click", fetchAndDisplayQuote);
+
+  // 10. Загружаем первую цитату сразу при открытии страницы
+  fetchAndDisplayQuote();
 });

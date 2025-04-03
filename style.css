@@ -2,35 +2,45 @@ body {
   font-family: Arial, sans-serif;
   text-align: center;
   margin: 50px;
-  background-color: #f4f4f4;
+  /* Меняем фон на темный */
+  background-color: #1a1a1a; /* Или #000 для черного */
+  /* Меняем основной цвет текста на светлый */
+  color: #f4f4f4;
 }
 
 .container {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Можно сделать фон контейнера чуть светлее фона body или оставить темным */
+  background-color: #2c2c2c; /* Чуть светлее основного фона */
+  /* Тень может плохо смотреться на темном фоне, можно убрать или изменить */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Тень стала темнее */
   border-radius: 10px;
+  /* Цвет текста внутри контейнера уже унаследован от body, но можно переопределить */
+  /* color: #f4f4f4; */
 }
 
 h1 {
   font-size: 2em;
   margin-bottom: 20px;
+  /* Цвет заголовка уже унаследован, можно не указывать, если подходит */
+  /* color: #f4f4f4; */
 }
 
 button {
   padding: 10px 20px;
   font-size: 1.2em;
-  background-color: #007bff;
-  color: white;
+  /* Можно оставить синий или изменить */
+  background-color: #2f5078;
+  color: white; /* Белый текст на синем хорошо смотрится */
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #007bff;
+  background-color: #e7eaee00; /* Сделаем hover чуть темнее */
 }
 
 #quoteDisplay {
@@ -41,10 +51,15 @@ button:hover {
   font-size: 1.5em;
   font-style: italic;
   margin-bottom: 10px;
+  /* Цвет текста цитаты уже унаследован */
+  /* color: #f4f4f4; */
 }
 
 .quote-author {
   font-size: 1.2em;
   font-weight: bold;
-  color: #555;
+  /* Сделаем цвет автора чуть менее ярким, чем основной текст */
+  color: #008000;
 }
+
+/* Очистка HTML (удален случайный символ 'т' после </head>) */
